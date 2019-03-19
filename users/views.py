@@ -1,11 +1,11 @@
-from users import user
-from flask import render_template, redirect, flash, session
+from users import user,db
+from flask import render_template, redirect, flash, session, request
 from users.models import UserModel
 from users.forms import SignIn,SignUp
 
 
 
-@user.route("/")
+@user.route("/", methods=["GET","POST"])
 def signin():
 	if 'username' in session:
 		del session["username"]
@@ -20,10 +20,10 @@ def signin():
 			return redirect("/home")
 		flash("Invalid Password")
 		return redirect("/")
-	return render_template("signup.html",form = form)
+	return render_template("signin.html",form = form)
 
 
-@user.route("/signup")
+@user.route("/signup", methods=["GET","POST"])
 def signup():
 	if 'username' in session:
 		del session["username"]
@@ -39,4 +39,5 @@ def signup():
 		new_user = UserModel(username=form.username.data,password=form.password.data,email=form.email.data)
 		db.session.add(new_user)
 		db.session.commit()
-	return render_template("singup.html",form=form)
+		return redirect('/')
+	return render_template("signup.html",form=form)
