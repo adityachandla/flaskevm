@@ -14,5 +14,5 @@ class QuestionModel(db.Model):
 class VoteModel(db.Model):
 	index = db.Column(db.Integer,primary_key=True)
 	username = db.Column(db.String)
-	question = db.Column(db.String)
+	title = db.Column(db.String)
 	option = db.Column(db.Integer)
